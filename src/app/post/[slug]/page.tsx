@@ -8,12 +8,13 @@ import { urlFor } from '../../../lib/sanity';
 export const revalidate = 60;
 
 interface PostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export default async function PostPage({ params }: PostPageProps) {
+export default async function PostPage(props: PostPageProps) {
+  const params = await props.params;
   const post = await getPostBySlug(params.slug);
 
   if (!post) {
